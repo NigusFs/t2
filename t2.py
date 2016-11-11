@@ -49,7 +49,7 @@ def spath(matriz,i,j,d):
     return int(k) # yo    
 
 def energy(img):
-    # filas = m, columnas = n, m=239, n=426
+    # filas = m, columnas = n
     m, n = img.shape   
     d=memo(m,n)
     for j in range (0,len(img[0])):#bien
@@ -63,12 +63,6 @@ def energy(img):
     for j in range (0,len(img)):
         ans[j]=[j,d[j][len(d[0])-1][2]]
 
-    #print("i: ",d[j][len(d[0])-1][1],",","j: ",d[j][len(d[0])-1][2])
-    #print(d[0][len[d]])
-    #aqui hay un error
-    #ans=[(d[j][len(d[0])-1][1],d[j][len(d[0])-1][2]) for j in range(m)]
-    #print(ans)
-    #ans=[(j,0) for j in range(m)]
     return e, ans
 
 
@@ -84,40 +78,13 @@ def togray(image):
 
 ## Remove one pixel per row... the one
 ## in the path min energy
-'''
+
 def remove(image, pixel):
     ans = []
     for i, k in pixel:
         ans.append(np.delete(image[i], k, 0))
     return np.array(ans)
-'''
-def remove(image, pixels):
-    ## Debe remover el camino con menor energia
-    #hay remplazar los valores vacios con los q estan a la derecha y luego eliminar una columna
-    #pixels es el arreglo q contiene los puntos del path (las cordenadas)
-    nucleo=pixels[0][1]
-    #print(nucleo)
-    #print(nucleo,"Nuvke")
-    #print(image[pixels[0][0]][pixels[0][1]],"aaa")
-    #print(pixels)
-    for i in range(1,len(image)):
-        x= pixels[i][1]# j de x
-        while x != nucleo:
-            #cambia
-            #print("I",i,x)
-            if x > nucleo:
-                #image[i][x-1]=image[i][x]
-                image[i][x-1] , image[i][x] =image[i][x] ,image[i][x-1]
-                x=x-1
-            else:
-                image[i][x+1] , image[i][x] =image[i][x] ,image[i][x+1]
-                x=x+1
-    #print(image[0][nucleo])          
-    image=np.delete(image, np.s_[nucleo], 1)   
-    #print(pixels)
-    ans = image# ans es la matriz editada
-    
-    return ans
+
 
 if __name__=='__main__':
     import sys
@@ -137,7 +104,7 @@ if __name__=='__main__':
     
     img = image
     ims = []
-    for i in range(n-new_n): #n-new_n
+    for i in range(n-new_n): 
         print("Iteracion numero {}/{}".format(i+1, n-new_n))
         img_gray = togray(img)
         e, p = energy(img_gray)
